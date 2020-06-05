@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter/foundation.dart';
 
 class MainModel extends StatefulWidget {
   @override
@@ -128,7 +132,7 @@ class _MainModelState extends State<MainModel> {
                                               ),
                                               tooltip: 'Share',
                                               onPressed: () {
-                                                // share data
+                                                share(index);
                                               },
                                             )
                                           ],
@@ -182,6 +186,16 @@ class _MainModelState extends State<MainModel> {
     );
   }
 
+  void share(int index) async {
+    var request = await HttpClient().getUrl(Uri.parse(dataState.list[index].thumbnail_url));
+    var response = await request.close();
+
+    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+    await Share.file('cdli tablet', 'image.jpg', bytes, 'image/jpg',
+      text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
+          + '"' + dataState.list[index].blurb + '"' + "\n\n");
+  }
+  
   void showSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
         content: Text('Saved to collection'),
