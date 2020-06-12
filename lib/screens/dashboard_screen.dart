@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/grid_model.dart';
+import 'package:cdli_tablet_app/models/list_model.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -56,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           body: TabBarView(children: <Widget>[
             GridModel(),
-            Icon(Icons.reorder, color: Colors.white),
+            ListModel(),
             Icon(Icons.collections, color: Colors.white),
           ]),
         ));
