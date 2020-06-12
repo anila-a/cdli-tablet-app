@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:cdli_tablet_app/screens/tile_screen.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class GridModel extends StatefulWidget {
   @override
@@ -52,9 +51,11 @@ class _GridModelState extends State<GridModel> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return new GridView.builder(
         gridDelegate:
-        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
+        (orientation == Orientation.portrait) ? 2 : 3),
         itemCount: dataState.list.length,
         itemBuilder: (BuildContext context, int index) {
           int position = index;
@@ -67,7 +68,10 @@ class _GridModelState extends State<GridModel> {
                     fit: BoxFit.fitWidth,
                     loadingBuilder: (context, child, progress) {
                       return progress == null ? child : new Center(
-                          child: CircularProgressIndicator()
+                          child: PlatformCircularProgressIndicator(
+                            android: (_) => MaterialProgressIndicatorData(),
+                            ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                          )
                       );
                     },
                   ),
