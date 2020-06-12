@@ -5,6 +5,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 
@@ -76,7 +79,10 @@ class _TileModelState extends State<TileModel> {
                   ),
                   loadingBuilder: (context, progress) => Center(
                       child : new Container(
-                          child: CircularProgressIndicator()
+                          child: PlatformCircularProgressIndicator(
+                            android: (_) => MaterialProgressIndicatorData(),
+                            ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                          )
                       )),
                 )
             ),
@@ -145,7 +151,7 @@ class _TileModelState extends State<TileModel> {
                                                   ),
                                                   tooltip: 'Share',
                                                   onPressed: () {
-                                                    share(index);
+                                                    share(position);
                                                   },
                                                 )
                                               ],
