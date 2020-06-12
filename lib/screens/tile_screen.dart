@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/tile_model.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class TileScreen extends StatefulWidget {
   final position;
@@ -27,8 +28,9 @@ class _TileScreenState extends State<TileScreen> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+        leading: PlatformIconButton(
+          android: (_) => MaterialIconButtonData(icon: Icon(Icons.arrow_back, color: Colors.white,)),
+          ios: (_) => CupertinoIconButtonData(icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
           onPressed: () => Navigator.of(context).pop(),
         ),
         //automaticallyImplyLeading: false,

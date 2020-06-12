@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/grid_model.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -19,8 +20,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               style: TextStyle(color: Colors.white),
             ),
             backgroundColor: Colors.black,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+            leading: PlatformIconButton(
+              android: (_) => MaterialIconButtonData(icon: Icon(Icons.arrow_back, color: Colors.white,)),
+              ios: (_) => CupertinoIconButtonData(icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
               onPressed: () => Navigator.of(context).pop(),
             ),
             //automaticallyImplyLeading: false,
