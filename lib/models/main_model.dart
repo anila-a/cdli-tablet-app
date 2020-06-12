@@ -7,6 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class MainModel extends StatefulWidget {
   @override
@@ -66,7 +67,11 @@ class _MainModelState extends State<MainModel> {
                 dataState.list[index].url,
               ),
               loadingBuilder: (context, progress) => Center(
-                  child: new Container(child: CircularProgressIndicator())),
+                  child: new Container(
+                      child: PlatformCircularProgressIndicator(
+                        android: (_) => MaterialProgressIndicatorData(),
+                        ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                      ))),
             )),
             new DraggableScrollableSheet(
               initialChildSize: 0.25,
@@ -192,10 +197,10 @@ class _MainModelState extends State<MainModel> {
 
     Uint8List bytes = await consolidateHttpClientResponseBytes(response);
     await Share.file('cdli tablet', 'image.jpg', bytes, 'image/jpg',
-      text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
-          + '"' + dataState.list[index].blurb + '"' + "\n\n");
-  }
-  
+        text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
+            + '"' + dataState.list[index].blurb + '"' + "\n\n");
+    }
+
   void showSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
         content: Text('Saved to collection'),
