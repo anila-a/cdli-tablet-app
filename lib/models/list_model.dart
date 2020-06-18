@@ -1,0 +1,147 @@
+import 'package:flutter/material.dart';
+import 'package:cdli_tablet_app/services/cdli_data_state.dart';
+import 'package:cdli_tablet_app/screens/list_tile_screen.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+class ListModel extends StatefulWidget {
+  @override
+  _ListModelState createState() => _ListModelState();
+}
+
+class _ListModelState extends State<ListModel> {
+
+  cdliDataState dataState = new cdliDataState();
+
+  @override
+  void initState() {
+    super.initState();
+    getDataFromApi();
+  }
+
+  getDataFromApi() async {
+    if (!mounted) return;
+    await dataState.getDataFromAPI();
+    setState(() {
+      if (dataState.error) {
+        _showError();
+      }
+    });
+  }
+
+  void _retry() {
+    Scaffold.of(context).removeCurrentSnackBar();
+    dataState.reset();
+    setState(() {});
+    getDataFromApi();
+  }
+
+  void _showError() {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Text('Check your connection and try again.'),
+      duration: new Duration(seconds: 3),
+      action: new SnackBarAction(
+        label: 'Retry',
+        textColor: Colors.cyan,
+        onPressed: () {
+          _retry();
+        },
+      ),
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new ListView.builder(
+        itemCount: dataState.list.length,
+        itemBuilder: (BuildContext context, int index) {
+          dataState.sortedList();
+          int position = index;
+          return Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Card(
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  title: Text(dataState.list[index].full_title, style: TextStyle(color: Colors.white, fontFamily: 'Belleza', fontSize: 16),),
+                  leading: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 55,
+                      minWidth: 55,
+                      maxHeight: 75,
+                      maxWidth: 75,
+                    ),
+                    child: Image.network(
+                      dataState.list[index].url,
+                      fit: BoxFit.fitWidth,
+                      loadingBuilder: (context, child, progress) {
+                        return progress == null ? child : new Center(
+                            child: PlatformCircularProgressIndicator(
+                              android: (_) => MaterialProgressIndicatorData(),
+                              ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                            )
+                        );
+                      },
+                    ),
+                  ),
+                  subtitle: Text(date(index), style: TextStyle(color: Colors.grey, fontFamily: 'Belleza', fontSize: 15),),
+                  onTap: () {
+                    navigateToDetailScreen(
+                        dataState.list[index].full_title,
+                        dataState.list[index].url,
+                        dataState.list[index].full_info,
+                        dataState.list[index].thumbnail_url,
+                        dataState.list[index].blurb,
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+    );
+  }
+
+  void navigateToDetailScreen(String title, String image, String info, String thumbnail, String short_info) async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => ListTileScreen(title, image, info, thumbnail, short_info)));
+  }
+
+  date(int index) {
+    String m;
+
+    var day = DateTime.parse(dataState.list[index].date).day;
+    var month = DateTime.parse(dataState.list[index].date).month;
+    var year = DateTime.parse(dataState.list[index].date).year;
+
+    switch(month) {
+      case 1: {m = 'January';}
+      break;
+      case 2: {m = 'February';}
+      break;
+      case 3: {m = 'March';}
+      break;
+      case 4: {m = 'April';}
+      break;
+      case 5: {m = 'May';}
+      break;
+      case 6: {m = 'June';}
+      break;
+      case 7: {m = 'July';}
+      break;
+      case 8: {m = 'August';}
+      break;
+      case 9: {m = 'September';}
+      break;
+      case 10: {m = 'October';}
+      break;
+      case 11: {m = 'November';}
+      break;
+      case 12: {m = 'December';}
+      break;
+      default: {m = 'January';}
+      break;
+    }
+
+    return m + " " + day.toString() + ", " + year.toString();
+  }
+}

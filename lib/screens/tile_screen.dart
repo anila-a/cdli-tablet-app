@@ -34,18 +34,6 @@ class _TileScreenState extends State<TileScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         //automaticallyImplyLeading: false,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            tooltip: 'Search',
-            onPressed: () {
-              // do something
-            },
-          ),
-        ],
       ),
       body: TileModel(position),);
   }

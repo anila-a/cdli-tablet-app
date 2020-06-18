@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/main_model.dart';
 import 'package:cdli_tablet_app/screens/dashboard_screen.dart';
+import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -20,16 +21,16 @@ class _MainScreenState extends State<MainScreen> {
         ),
         backgroundColor: Colors.black,
         actions: <Widget>[
-          IconButton(
+          /*IconButton(
             icon: Icon(
               Icons.search,
               color: Colors.white,
             ),
             tooltip: 'Search',
             onPressed: () {
-              // do something
+              // something
             },
-          ),
+          ),*/
           IconButton(
             icon: Icon(
               Icons.dashboard,

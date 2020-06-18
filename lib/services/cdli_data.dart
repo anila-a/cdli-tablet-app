@@ -14,7 +14,7 @@ class cdliData {
     List data = json.decode(covariant);
     List<cdliData> result = [];
 
-    for(var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       result.add(
           new cdliData(
               date: data[i]['date'],
@@ -28,4 +28,9 @@ class cdliData {
       );}
     return result;
   }
+
+  getTitle() {
+    return this.full_title;
+  }
+
 }

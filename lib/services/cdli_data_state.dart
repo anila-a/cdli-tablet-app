@@ -28,4 +28,10 @@ class cdliDataState {
       }
     } catch (exception) {this.list = []; this.loading = false; this.error = true;}
   }
+
+  sortedList() {
+      this.list.sort((a, b) {
+      return a.full_title.toString().compareTo(b.full_title.toString());
+    });
+  }
 }
