@@ -176,7 +176,7 @@ class _TileModelState extends State<TileModel> {
                                     height: 20,
                                   ),
                                   new Html(
-                                    data: dataState.list[index].full_info,
+                                    data: dataState.list[position].full_info,
                                     defaultTextStyle: TextStyle(
                                         color: Colors.white, fontFamily: 'Belleza', fontSize: 17),
                                     onLinkTap: (url) async {
@@ -202,14 +202,14 @@ class _TileModelState extends State<TileModel> {
       },);
   }
 
-  void share(int index) async {
-    var request = await HttpClient().getUrl(Uri.parse(dataState.list[index].thumbnail_url));
+  void share(int position) async {
+    var request = await HttpClient().getUrl(Uri.parse(dataState.list[position].thumbnail_url));
     var response = await request.close();
 
     Uint8List bytes = await consolidateHttpClientResponseBytes(response);
     await Share.file('cdli tablet', 'image.jpg', bytes, 'image/jpg',
         text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
-            + '"' + dataState.list[index].blurb + '"' + "\n\n");
+            + '"' + dataState.list[position].blurb + '"' + "\n\n");
   }
 
   void showSnackBar(BuildContext context) {
@@ -224,4 +224,3 @@ class _TileModelState extends State<TileModel> {
             })));
   }
 }
-

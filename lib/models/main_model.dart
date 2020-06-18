@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:photo_view/photo_view.dart';
@@ -5,9 +7,12 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import 'package:cdli_tablet_app/services/data.dart';
+import 'package:cdli_tablet_app/services/db_helper.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
 
 class MainModel extends StatefulWidget {
   @override
@@ -15,6 +20,10 @@ class MainModel extends StatefulWidget {
 }
 
 class _MainModelState extends State<MainModel> {
+
+  DatabaseHelper dbHelper = DatabaseHelper();
+  Data data;
+
   final cdliDataState dataState = new cdliDataState();
 
   @override
@@ -59,6 +68,8 @@ class _MainModelState extends State<MainModel> {
     return PageView.builder(
       itemCount: dataState.list.length,
       itemBuilder: (BuildContext context, int index) {
+        //data.dateDB = dataState.list[index].date;
+        //data.fullTitleDB = dataState.list[index].full_title;
         return Stack(
           children: <Widget>[
             new SizedBox.expand(
@@ -101,7 +112,7 @@ class _MainModelState extends State<MainModel> {
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         new Text(
-                                            dataState.list[index].blurb_title,
+                                            dataState.list[index].full_title,
                                             style: new TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 20,
@@ -122,8 +133,7 @@ class _MainModelState extends State<MainModel> {
                                               ),
                                               tooltip: 'Save to collection',
                                               onPressed: () {
-                                                showSnackBar(
-                                                    context); // Call function
+                                                _save();
                                               },
                                             ),
                                             new SizedBox(
@@ -199,17 +209,29 @@ class _MainModelState extends State<MainModel> {
     await Share.file('cdli tablet', 'image.jpg', bytes, 'image/jpg',
         text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
             + '"' + dataState.list[index].blurb + '"' + "\n\n");
-  }
+    }
 
   void showSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Saved to collection'),
-        duration: const Duration(seconds: 2),
+        content: Text('Saved to collection.'),
+        duration: const Duration(seconds: 3),
         action: new SnackBarAction(
             label: "Undo",
             textColor: Colors.cyan,
             onPressed: () {
               // Undo change
             })));
+  }
+
+  void _save() async {
+
+    int result;
+    result = await dbHelper.insertData(data);
+
+    if (result != 0) {
+      showSnackBar(context);
+    } else {
+      //
+    }
   }
 }
