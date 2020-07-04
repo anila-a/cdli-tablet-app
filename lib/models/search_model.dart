@@ -129,16 +129,6 @@ class _SearchModelState extends State<SearchModel> {
     );
   }
 
-
-
-
-
-
-
-
-
-
-
   void navigateToDetailScreen(String title, String image, String info, String thumbnail, String short_info) async {
     await Navigator.push(context, MaterialPageRoute(builder: (context) =>
         ListTileScreen(title, image, info, thumbnail, short_info)));
