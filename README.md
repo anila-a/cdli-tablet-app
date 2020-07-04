@@ -11,7 +11,7 @@ highly-customized UX. CDLI tablet app will be accessible for both Android and iO
 
 https://summerofcode.withgoogle.com/projects/#5115652567728128
 
-<b>Organization:</b> Cuneiform Digital Library Initiative (CDLI)
+<b>Organization:</b> Cuneiform Digital Library Initiative (CDLI)<br>
 <b>Mentors:</b> M. Willis Monroe
 
 Google Summer of Code 2020
