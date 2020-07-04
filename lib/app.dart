@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/routes/routes.dart';
-import 'package:flutter/services.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

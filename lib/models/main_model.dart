@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -14,6 +15,22 @@ import 'package:cdli_tablet_app/services/db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
+class SizeConfig {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+  static double blockSizeHorizontal;
+  static double blockSizeVertical;
+
+  void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    blockSizeHorizontal = screenWidth / 100;
+    blockSizeVertical = screenHeight / 100;
+  }
+}
+
 class MainModel extends StatefulWidget {
   @override
   _MainModelState createState() => _MainModelState();
@@ -21,8 +38,8 @@ class MainModel extends StatefulWidget {
 
 class _MainModelState extends State<MainModel> {
 
-  DatabaseHelper dbHelper = DatabaseHelper();
-  Data data;
+  //DatabaseHelper dbHelper = DatabaseHelper();
+  //Data data;
 
   final cdliDataState dataState = new cdliDataState();
 
@@ -65,9 +82,11 @@ class _MainModelState extends State<MainModel> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return PageView.builder(
       itemCount: dataState.list.length,
       itemBuilder: (BuildContext context, int index) {
+        //SizeConfig().init(context);
         //data.dateDB = dataState.list[index].date;
         //data.fullTitleDB = dataState.list[index].full_title;
         return Stack(
@@ -84,14 +103,18 @@ class _MainModelState extends State<MainModel> {
                         ios: (_) => CupertinoProgressIndicatorData(radius: 25),
                       ))),
             )),
-            new DraggableScrollableSheet(
-              initialChildSize: 0.25,
+            new Container (
+            child: new DraggableScrollableSheet(
+              //initialChildSize: SizeConfig.blockSizeVertical * 20,//0.25
+              initialChildSize: SizeConfig.blockSizeVertical * 0.038,
+              minChildSize: 0.2,
+              maxChildSize: 1.0,
               builder: (context, scrollController) {
                 return SingleChildScrollView(
                     controller: scrollController,
                     child: new Container(
-                        constraints: BoxConstraints(
-                            minHeight: MediaQuery.of(context).size.height),
+                        //constraints: BoxConstraints(
+                            //minHeight: MediaQuery.of(context).size.height),
                         color: Colors.black54,
                         child: new Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +156,7 @@ class _MainModelState extends State<MainModel> {
                                               ),
                                               tooltip: 'Save to collection',
                                               onPressed: () {
-                                                _save();
+                                                //_save();
                                               },
                                             ),
                                             new SizedBox(
@@ -194,7 +217,7 @@ class _MainModelState extends State<MainModel> {
                           ],
                         )));
               },
-            ),
+            ),),
           ],
         );
       },
@@ -223,7 +246,7 @@ class _MainModelState extends State<MainModel> {
             })));
   }
 
-  void _save() async {
+  /*void _save() async {
 
     int result;
     result = await dbHelper.insertData(data);
@@ -233,5 +256,5 @@ class _MainModelState extends State<MainModel> {
     } else {
       //
     }
-  }
+  }*/
 }

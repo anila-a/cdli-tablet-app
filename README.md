@@ -1,16 +1,18 @@
-# cdli_tablet_app
+# Revamp CDLI tablet apps (Apple and Android)
 
-A new Flutter application.
+CDLI tablet app offers a curated collection of images, text, and metadata of artifacts inscribed
+with the cuneiform script. Artifacts from the ancient Near East, which document three millennia of
+human activity, are made available to the users through this mobile application.
 
-## Getting Started
+The idea of the Revamp CDLI tablet apps project is to recreate the existing CDLI tablet app using
+Flutter and provide a web admin interface for the mobile app data entry and management. Besides its
+existing components, the new mobile application will offer additional features for a
+highly-customized UX. CDLI tablet app will be accessible for both Android and iOS devices.
 
-This project is a starting point for a Flutter application.
+https://summerofcode.withgoogle.com/projects/#5115652567728128
 
-A few resources to get you started if this is your first Flutter project:
+<b>Organization:</b> Cuneiform Digital Library Initiative (CDLI)
+<b>Mentors:</b> M. Willis Monroe
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Google Summer of Code 2020
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

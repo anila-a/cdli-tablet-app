@@ -32,7 +32,6 @@ dependencies:
   intl: ^0.16.1
   esys_flutter_share: ^1.0.2
   flutter_platform_widgets: ^0.32.4
-  flappy_search_bar: ^1.7.2
   sqflite: any
   path_provider: any
 

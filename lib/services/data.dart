@@ -1,5 +1,5 @@
 
-class Data {
+/*class Data {
   int _id;
   String _dateDB;
   String _thumbnailUrlDB; String _urlDB;
@@ -60,5 +60,5 @@ class Data {
     this._fullTitleDB = map['fullTitleDB'];
     this._fullInfoDB = map['fullInfoDB'];
   }
-}
+}*/
 

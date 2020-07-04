@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/main_model.dart';
 import 'package:cdli_tablet_app/screens/dashboard_screen.dart';
-import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 
 class MainScreen extends StatefulWidget {
   @override

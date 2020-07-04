@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:cdli_tablet_app/screens/tile_screen.dart';
-import 'package:flappy_search_bar/search_bar_style.dart';
+import 'package:cdli_tablet_app/screens/list_tile_screen.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SearchModel extends StatefulWidget {
   @override
@@ -12,11 +11,13 @@ class SearchModel extends StatefulWidget {
 class _SearchModelState extends State<SearchModel> {
 
   final cdliDataState dataState = new cdliDataState();
+  cdliDataState dataStateSearch = new cdliDataState();
 
   @override
   void initState() {
     super.initState();
     getDataFromApi();
+    dataStateSearch.list = dataState.list;
   }
 
   getDataFromApi() async {
@@ -50,38 +51,77 @@ class _SearchModelState extends State<SearchModel> {
     ));
   }
 
-  Future<List<cdliDataState>> search(String search) async {
-    await Future.delayed(Duration(seconds: 1));
-    return List.generate(dataState.list.length, (int index) {
-      return cdliDataState(list: dataState.list);
-    });
-  }
-
-  final SearchBarStyle searchBarStyle = new SearchBarStyle();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: SearchBar<cdliDataState>(
-          textStyle: TextStyle(color: Colors.black, decoration: null),
-          onSearch: search,
-          //searchBarController: SearchBarController(),
-          searchBarStyle: SearchBarStyle(
-            backgroundColor: Color.fromRGBO(255, 255, 255, .95),
-            padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 5.0, bottom: 5.0),
-          ),
+    return ListView.builder(
+      itemCount: dataStateSearch.list.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        return index == 0 ? searchBar() : listTiles(index-1);
+      });
+  }
+
+  searchBar() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(
           hintText: 'Search',
-          onItemFound: (cdliDataState dataState, int index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                title: Text(dataState.list[index].full_title, style: TextStyle(color: Colors.white, fontSize: 16),),
-                subtitle: Text(date(index), style: TextStyle(color: Colors.grey, fontSize: 15),),
-                onTap: () {
-                  navigateToDetailScreen(index);
-                },
-              ),
+          hintStyle: TextStyle(color: Colors.grey),
+          prefixIcon: Icon(Icons.search, color: Colors.white),
+          enabledBorder: new OutlineInputBorder(
+            borderRadius: new BorderRadius.circular(8.0),
+            borderSide: new BorderSide(color: Colors.grey, width: 2.5),
+          ),
+        ),
+        style: TextStyle(color: Colors.white),
+        onChanged: (text) {
+          text = text.toLowerCase();
+          setState(() {
+            dataStateSearch.list = dataState.list.where((dataState) {
+              var dataStateTitle = dataState.full_title.toLowerCase();
+              return dataStateTitle.contains(text);
+            }).toList();
+          });
+        },
+      )
+    );
+  }
+
+  listTiles(index) {
+    return Card(
+      color: Colors.black,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          title: Text(dataStateSearch.list[index].full_title, style: TextStyle(color: Colors.white, fontFamily: 'Belleza', fontSize: 16),),
+          leading: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: 55,
+              minWidth: 55,
+              maxHeight: 75,
+              maxWidth: 75,
+            ),
+            child: Image.network(
+              dataStateSearch.list[index].url,
+              fit: BoxFit.fitWidth,
+              loadingBuilder: (context, child, progress) {
+                return progress == null ? child : new Center(
+                    child: PlatformCircularProgressIndicator(
+                      android: (_) => MaterialProgressIndicatorData(),
+                      ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                    )
+                );
+              },
+            ),
+          ),
+          subtitle: Text(date(index), style: TextStyle(color: Colors.grey, fontFamily: 'Belleza', fontSize: 15),),
+          onTap: () {
+            navigateToDetailScreen(
+              dataStateSearch.list[index].full_title,
+              dataStateSearch.list[index].url,
+              dataStateSearch.list[index].full_info,
+              dataStateSearch.list[index].thumbnail_url,
+              dataStateSearch.list[index].blurb,
             );
           },
         ),
@@ -89,8 +129,19 @@ class _SearchModelState extends State<SearchModel> {
     );
   }
 
-  void navigateToDetailScreen(int index) async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => TileScreen(index)));
+
+
+
+
+
+
+
+
+
+
+  void navigateToDetailScreen(String title, String image, String info, String thumbnail, String short_info) async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) =>
+        ListTileScreen(title, image, info, thumbnail, short_info)));
   }
 
   date(int index) {

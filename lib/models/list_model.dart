@@ -10,7 +10,7 @@ class ListModel extends StatefulWidget {
 
 class _ListModelState extends State<ListModel> {
 
-  cdliDataState dataState = new cdliDataState();
+  final cdliDataState dataState = new cdliDataState();
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _ListModelState extends State<ListModel> {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
+    return ListView.builder(
         itemCount: dataState.list.length,
         itemBuilder: (BuildContext context, int index) {
           dataState.sortedList();
@@ -103,7 +103,8 @@ class _ListModelState extends State<ListModel> {
   }
 
   void navigateToDetailScreen(String title, String image, String info, String thumbnail, String short_info) async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => ListTileScreen(title, image, info, thumbnail, short_info)));
+    await Navigator.push(context, MaterialPageRoute(builder: (context) =>
+        ListTileScreen(title, image, info, thumbnail, short_info)));
   }
 
   date(int index) {

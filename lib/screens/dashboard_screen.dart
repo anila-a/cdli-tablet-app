@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/grid_model.dart';
 import 'package:cdli_tablet_app/models/list_model.dart';
-import 'package:cdli_tablet_app/models/collection_model.dart';
+//import 'package:cdli_tablet_app/models/collection_model.dart';
 import 'package:cdli_tablet_app/screens/search_screen.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -62,7 +62,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           body: TabBarView(children: <Widget>[
             GridModel(),
             ListModel(),
-            CollectionModel(),
+            //CollectionModel(),
+            IconButton(icon: Icon(Icons.collections, color: Colors.white,), onPressed: () {},),
           ]),
         ));
   }

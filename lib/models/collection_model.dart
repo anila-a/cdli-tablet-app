@@ -14,25 +14,25 @@ class CollectionModel extends StatefulWidget {
 
 class _CollectionModelState extends State<CollectionModel> {
 
-  DatabaseHelper databaseHelper = DatabaseHelper();
+  /*DatabaseHelper databaseHelper = DatabaseHelper();
   List<Data> dataList;
-  int cnt = 0;
+  int cnt = 0;*/
 
   @override
   Widget build(BuildContext context) {
 
-    if (dataList == null) {
+    /*if (dataList == null) {
       dataList = List<Data>();
       update();
-    }
+    }*/
 
     return new ListView.builder(
-      itemCount: cnt,
+      //itemCount: cnt,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           color: Colors.blue,
           child: ListTile(
-            title: Text(this.dataList[index].fullTitleDB, style: TextStyle(color: Colors.white, fontFamily: 'Belleza', fontSize: 16),),
+            //title: Text(this.dataList[index].fullTitleDB, style: TextStyle(color: Colors.white, fontFamily: 'Belleza', fontSize: 16),),
             leading: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 55,
@@ -40,7 +40,7 @@ class _CollectionModelState extends State<CollectionModel> {
                 maxHeight: 75,
                 maxWidth: 75,
               ),
-              child: Image.network(
+              /*child: Image.network(
                 this.dataList[index].urlDB,
                 fit: BoxFit.fitWidth,
                 loadingBuilder: (context, child, progress) {
@@ -51,13 +51,13 @@ class _CollectionModelState extends State<CollectionModel> {
                       )
                   );
                 },
-              ),
+              ),*/
             ),
-            subtitle: Text(this.dataList[index].dateDB, style: TextStyle(color: Colors.grey, fontFamily: 'Belleza', fontSize: 15),),
+            //subtitle: Text(this.dataList[index].dateDB, style: TextStyle(color: Colors.grey, fontFamily: 'Belleza', fontSize: 15),),
             trailing: GestureDetector(
               child: Icon(Icons.delete, color: Colors.white,),
               onTap: () {
-                _delete(context, dataList[index]);
+                //_delete(context, dataList[index]);
               },
             ),
             onTap: () {
@@ -67,7 +67,7 @@ class _CollectionModelState extends State<CollectionModel> {
     );
   });}
 
-  void _delete(BuildContext context, Data data) async {
+  /*void _delete(BuildContext context, Data data) async {
     int result = await databaseHelper.deleteData(data.id);
 
     if (result != 0) {
@@ -99,5 +99,5 @@ class _CollectionModelState extends State<CollectionModel> {
             onPressed: () {
               // Undo change
             })));
-  }
+  }*/
 }
