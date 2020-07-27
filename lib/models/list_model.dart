@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:cdli_tablet_app/screens/list_tile_screen.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:cache_image/cache_image.dart';
 
 class ListModel extends StatefulWidget {
   @override
@@ -37,7 +38,8 @@ class _ListModelState extends State<ListModel> {
 
   void _showError() {
     Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Check your connection and try again.'),
+      content: new Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
+        fontWeight: FontWeight.w400,),),
       duration: new Duration(seconds: 3),
       action: new SnackBarAction(
         label: 'Retry',
@@ -51,55 +53,85 @@ class _ListModelState extends State<ListModel> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: dataState.list.length,
-        itemBuilder: (BuildContext context, int index) {
-          dataState.sortedList();
-          int position = index;
-          return Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Card(
-              color: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text(dataState.list[index].full_title, style: TextStyle(color: Colors.white, fontFamily: 'Belleza', fontSize: 16),),
-                  leading: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: 55,
-                      minWidth: 55,
-                      maxHeight: 75,
-                      maxWidth: 75,
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Row(
+              children: <Widget>[
+                Text('LIST VIEW', style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: 'NotoSansJP',
+                  fontWeight: FontWeight.w400,)),
+              ],
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.sort_by_alpha, color: Colors.white, size: 22,),
+              SizedBox(width: 10,),
+              Text('Sorted artifacts in a list view', style: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'NotoSansJP',
+                fontWeight: FontWeight.w400,)),
+            ],
+          ),
+        ),
+        Divider(color: Colors.white, thickness: 0.28,),
+        Expanded(
+        flex: 1,
+        child: ListView.builder(
+          itemCount: dataState.list.length,
+          itemBuilder: (BuildContext context, int index) {
+            dataState.sortedList();
+            int position = index;
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Card(
+                color: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Text(dataState.list[index].full_title, style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),),
+                    leading: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: 55,
+                        minWidth: 55,
+                        maxHeight: 75,
+                        maxWidth: 75,
+                      ),
+                      child: Image(
+                        image: CacheImage(dataState.list[index].url),
+                        fit: BoxFit.fitWidth,
+                        loadingBuilder: (context, child, progress) {
+                          return progress == null ? child : new Center(
+                              child: PlatformCircularProgressIndicator(
+                                android: (_) => MaterialProgressIndicatorData(),
+                                ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                              )
+                          );
+                        },
+                      ),
                     ),
-                    child: Image.network(
-                      dataState.list[index].url,
-                      fit: BoxFit.fitWidth,
-                      loadingBuilder: (context, child, progress) {
-                        return progress == null ? child : new Center(
-                            child: PlatformCircularProgressIndicator(
-                              android: (_) => MaterialProgressIndicatorData(),
-                              ios: (_) => CupertinoProgressIndicatorData(radius: 25),
-                            )
-                        );
-                      },
-                    ),
+                    subtitle: Text(date(index), style: TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP', fontSize: 14),),
+                    onTap: () {
+                      navigateToDetailScreen(
+                          dataState.list[index].full_title,
+                          dataState.list[index].url,
+                          dataState.list[index].full_info,
+                          dataState.list[index].thumbnail_url,
+                          dataState.list[index].blurb,
+                      );
+                    },
                   ),
-                  subtitle: Text(date(index), style: TextStyle(color: Colors.grey, fontFamily: 'Belleza', fontSize: 15),),
-                  onTap: () {
-                    navigateToDetailScreen(
-                        dataState.list[index].full_title,
-                        dataState.list[index].url,
-                        dataState.list[index].full_info,
-                        dataState.list[index].thumbnail_url,
-                        dataState.list[index].blurb,
-                    );
-                  },
                 ),
               ),
-            ),
-          );
-        },
-    );
+            );
+          },
+      ),
+    ),],),),);
   }
 
   void navigateToDetailScreen(String title, String image, String info, String thumbnail, String short_info) async {
