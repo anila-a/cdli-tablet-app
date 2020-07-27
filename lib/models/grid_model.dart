@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:cdli_tablet_app/screens/tile_screen.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:cache_image/cache_image.dart';
 
 class GridModel extends StatefulWidget {
   @override
@@ -37,7 +38,8 @@ class _GridModelState extends State<GridModel> {
 
   void _showError() {
     Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Check your connection and try again.'),
+      content: new Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
+        fontWeight: FontWeight.w400,),),
       duration: new Duration(seconds: 3),
       action: new SnackBarAction(
         label: 'Retry',
@@ -52,46 +54,79 @@ class _GridModelState extends State<GridModel> {
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
-    return new GridView.builder(
-        gridDelegate:
-        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
-        (orientation == Orientation.portrait) ? 2 : 3),
-        itemCount: dataState.list.length,
-        itemBuilder: (BuildContext context, int index) {
-          int position = index;
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: new Card(
-              child: new GridTile(
-                  child: Image.network(
-                    dataState.list[index].url,
-                    fit: BoxFit.fitWidth,
-                    loadingBuilder: (context, child, progress) {
-                      return progress == null ? child : new Center(
-                          child: PlatformCircularProgressIndicator(
-                            android: (_) => MaterialProgressIndicatorData(),
-                            ios: (_) => CupertinoProgressIndicatorData(radius: 25),
-                          )
-                      );
-                    },
-                  ),
-                  footer: new Container(
-                      color: Colors.black54,
-                      child: ListTile(
-                        leading: Text(
-                          date(index),
-                          style: TextStyle(color: Colors.white, fontFamily: 'Belleza', fontSize: 16),
-                        ),
-                        onTap: () {
-                          navigateToDetailScreen(position);
-                        },
-                      )
-                  )
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text('GRID VIEW', style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.w400,)),
+                ],
               ),
-              color: Colors.black,
             ),
-          );
-        });
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.grid_on, color: Colors.white, size: 22,),
+                  SizedBox(width: 10,),
+                  Text('Artifacts displayed in a grid view', style: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.w400,)),
+                ],
+              ),
+            ),
+            Divider(color: Colors.white, thickness: 0.28,),
+            Expanded(
+              flex: 1,
+            child: GridView.builder(
+                gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
+                (orientation == Orientation.portrait) ? 2 : 3),
+                itemCount: dataState.list.length,
+                itemBuilder: (BuildContext context, int index) {
+                  int position = index;
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new Card(
+                      child: new GridTile(
+                          child: Image(
+                            image: CacheImage(dataState.list[index].url),
+                            fit: BoxFit.fitWidth,
+                            loadingBuilder: (context, child, progress) {
+                              return progress == null ? child : new Center(
+                                  child: PlatformCircularProgressIndicator(
+                                    android: (_) => MaterialProgressIndicatorData(),
+                                    ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                                  )
+                              );
+                            },
+                          ),
+                          footer: new Container(
+                              color: Colors.black54,
+                              child: ListTile(
+                                leading: Text(
+                                  date(index),
+                                  style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),
+                                ),
+                                onTap: () {
+                                  navigateToDetailScreen(position);
+                                },
+                              )
+                          )
+                      ),
+                      color: Colors.black,
+                    ),
+                  );
+                }),
+            ),],
+        ),
+      ),
+    );
   }
 
   void navigateToDetailScreen(int position) async {
