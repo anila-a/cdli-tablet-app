@@ -8,6 +8,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:cache_image/cache_image.dart';
 
 class TileModel extends StatefulWidget {
   final position;
@@ -73,7 +74,7 @@ class _TileModelState extends State<TileModel> {
           children: <Widget>[
             new SizedBox.expand(
                 child: PhotoView(
-                  imageProvider: NetworkImage(dataState.list[position].url,
+                  imageProvider: CacheImage(dataState.list[position].url,
                   ),
                   loadingBuilder: (context, progress) => Center(
                       child : new Container(
@@ -85,7 +86,7 @@ class _TileModelState extends State<TileModel> {
                 )
             ),
             new DraggableScrollableSheet(
-              initialChildSize: 0.25,
+              initialChildSize: 0.27,
               builder: (context, scrollController) {
                 return SingleChildScrollView(
                     controller: scrollController,
@@ -113,12 +114,12 @@ class _TileModelState extends State<TileModel> {
                                           children: <Widget>[
                                             new Text(
                                                 dataState
-                                                    .list[position].blurb_title,
+                                                    .list[position].full_title,
                                                 style: new TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                    FontWeight.bold)),
+                                                    fontSize: 18,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontWeight: FontWeight.w400,)),
                                             new SizedBox(
                                               height: 20,
                                             ),
@@ -170,7 +171,8 @@ class _TileModelState extends State<TileModel> {
                                   new Text(
                                     'swipe up',
                                     style: TextStyle(
-                                        color: Colors.cyan, fontSize: 14),
+                                      color: Colors.cyan, fontSize: 14, fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.w400,),
                                   ),
                                   new SizedBox(
                                     height: 20,
@@ -178,7 +180,7 @@ class _TileModelState extends State<TileModel> {
                                   new Html(
                                     data: dataState.list[position].full_info,
                                     defaultTextStyle: TextStyle(
-                                        color: Colors.white, fontFamily: 'Belleza', fontSize: 17),
+                                        color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),
                                     onLinkTap: (url) async {
                                       if (await canLaunch(url)) {
                                         await launch(url);
@@ -214,7 +216,8 @@ class _TileModelState extends State<TileModel> {
 
   void showSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Saved to collection'),
+        content: Text('Saved to collection', style: TextStyle(fontFamily: 'NotoSansJP',
+          fontWeight: FontWeight.w400,),),
         duration: const Duration(seconds: 2),
         action: new SnackBarAction(
             label: "Undo",
@@ -224,3 +227,4 @@ class _TileModelState extends State<TileModel> {
             })));
   }
 }
+
