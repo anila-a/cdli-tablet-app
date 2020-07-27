@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:cdli_tablet_app/screens/list_tile_screen.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:cache_image/cache_image.dart';
 
 class SearchModel extends StatefulWidget {
   @override
@@ -66,11 +67,12 @@ class _SearchModelState extends State<SearchModel> {
       child: TextField(
         decoration: InputDecoration(
           hintText: 'Search',
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP',
+            fontWeight: FontWeight.w400,),
           prefixIcon: Icon(Icons.search, color: Colors.white),
           enabledBorder: new OutlineInputBorder(
             borderRadius: new BorderRadius.circular(8.0),
-            borderSide: new BorderSide(color: Colors.grey, width: 2.5),
+            borderSide: new BorderSide(color: Colors.grey, width: 2.0),
           ),
         ),
         style: TextStyle(color: Colors.white),
@@ -93,7 +95,7 @@ class _SearchModelState extends State<SearchModel> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-          title: Text(dataStateSearch.list[index].full_title, style: TextStyle(color: Colors.white, fontFamily: 'Belleza', fontSize: 16),),
+          title: Text(dataStateSearch.list[index].full_title, style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),),
           leading: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: 55,
@@ -101,8 +103,8 @@ class _SearchModelState extends State<SearchModel> {
               maxHeight: 75,
               maxWidth: 75,
             ),
-            child: Image.network(
-              dataStateSearch.list[index].url,
+            child: Image(
+              image: CacheImage(dataStateSearch.list[index].url),
               fit: BoxFit.fitWidth,
               loadingBuilder: (context, child, progress) {
                 return progress == null ? child : new Center(
@@ -114,7 +116,7 @@ class _SearchModelState extends State<SearchModel> {
               },
             ),
           ),
-          subtitle: Text(date(index), style: TextStyle(color: Colors.grey, fontFamily: 'Belleza', fontSize: 15),),
+          subtitle: Text(date(index), style: TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP', fontSize: 14),),
           onTap: () {
             navigateToDetailScreen(
               dataStateSearch.list[index].full_title,
@@ -173,3 +175,4 @@ class _SearchModelState extends State<SearchModel> {
     return m + " " + day.toString() + ", " + year.toString();
   }
 }
+
