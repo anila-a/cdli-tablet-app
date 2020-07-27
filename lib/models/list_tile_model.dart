@@ -8,6 +8,11 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:cdli_tablet_app/services/cdli_data.dart';
+import 'package:cdli_tablet_app/services/db_helper.dart';
+import 'package:cache_image/cache_image.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
 
 class ListTileModel extends StatefulWidget {
   final title;
@@ -34,6 +39,8 @@ class _ListTileModelState extends State<ListTileModel> {
   _ListTileModelState(this.title, this.image, this.info, this.thumbnail, this.short_info);
 
   final cdliDataState dataState = new cdliDataState();
+  DatabaseHelper dbHelper = DatabaseHelper();
+  cdliData data;
 
   @override
   void initState() {
@@ -60,7 +67,8 @@ class _ListTileModelState extends State<ListTileModel> {
 
   void _showError() {
     Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Check your connection and try again.'),
+      content: new Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
+        fontWeight: FontWeight.w400,),),
       duration: new Duration(seconds: 3),
       action: new SnackBarAction(
         label: 'Retry',
@@ -81,7 +89,7 @@ class _ListTileModelState extends State<ListTileModel> {
           children: <Widget>[
             new SizedBox.expand(
                 child: PhotoView(
-                  imageProvider: NetworkImage(image,
+                  imageProvider: CacheImage(image,
                   ),
                   loadingBuilder: (context, progress) => Center(
                       child : new Container(
@@ -93,7 +101,7 @@ class _ListTileModelState extends State<ListTileModel> {
                 )
             ),
             new DraggableScrollableSheet(
-              initialChildSize: 0.25,
+              initialChildSize: 0.27,
               builder: (context, scrollController) {
                 return SingleChildScrollView(
                     controller: scrollController,
@@ -122,9 +130,9 @@ class _ListTileModelState extends State<ListTileModel> {
                                             new Text(title,
                                                 style: new TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                    FontWeight.bold)),
+                                                    fontSize: 18,
+                                                    fontFamily: 'NotoSansJP',
+                                                  fontWeight: FontWeight.w400,)),
                                             new SizedBox(
                                               height: 20,
                                             ),
@@ -141,7 +149,8 @@ class _ListTileModelState extends State<ListTileModel> {
                                                   ),
                                                   tooltip: 'Save to collection',
                                                   onPressed: () {
-                                                    showSnackBar(context); // Call function
+                                                    //showSnackBar(context); // Call function
+                                                    save();
                                                   },
                                                 ),
                                                 new SizedBox(
@@ -176,7 +185,8 @@ class _ListTileModelState extends State<ListTileModel> {
                                   new Text(
                                     'swipe up',
                                     style: TextStyle(
-                                        color: Colors.cyan, fontSize: 14),
+                                        color: Colors.cyan, fontSize: 14, fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.w400,),
                                   ),
                                   new SizedBox(
                                     height: 20,
@@ -184,7 +194,7 @@ class _ListTileModelState extends State<ListTileModel> {
                                   new Html(
                                     data: info,
                                     defaultTextStyle: TextStyle(
-                                        color: Colors.white, fontFamily: 'Belleza', fontSize: 17),
+                                        color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),
                                     onLinkTap: (url) async {
                                       if (await canLaunch(url)) {
                                         await launch(url);
@@ -220,7 +230,8 @@ class _ListTileModelState extends State<ListTileModel> {
 
   void showSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Saved to collection'),
+        content: Text('Saved to collection', style: TextStyle(fontFamily: 'NotoSansJP',
+          fontWeight: FontWeight.w400,)),
         duration: const Duration(seconds: 2),
         action: new SnackBarAction(
             label: "Undo",
@@ -228,5 +239,25 @@ class _ListTileModelState extends State<ListTileModel> {
             onPressed: () {
               // Undo change
             })));
+  }
+
+  void moveToLastScreen() {
+    Navigator.pop(context, true);
+  }
+
+  void save() async {
+    moveToLastScreen();
+    int result;
+
+    if(data.idDB == null) {
+      result = await dbHelper.insertData(data);
+    }
+
+    if (result != 0) {
+      showSnackBar(context);
+    } else {
+      showSnackBar(context);
+    }
+    moveToLastScreen();
   }
 }
