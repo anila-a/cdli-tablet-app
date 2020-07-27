@@ -9,12 +9,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
-import 'package:cdli_tablet_app/services/data.dart';
+import 'package:cache_image/cache_image.dart';
+import 'package:cdli_tablet_app/services/cdli_data.dart';
 import 'package:cdli_tablet_app/services/db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
-
+/*
 class SizeConfig {
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
@@ -29,7 +29,7 @@ class SizeConfig {
     blockSizeHorizontal = screenWidth / 100;
     blockSizeVertical = screenHeight / 100;
   }
-}
+}*/
 
 class MainModel extends StatefulWidget {
   @override
@@ -68,7 +68,8 @@ class _MainModelState extends State<MainModel> {
 
   void _showError() {
     Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Check your connection and try again.'),
+      content: new Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
+        fontWeight: FontWeight.w400,),),
       duration: new Duration(seconds: 3),
       action: new SnackBarAction(
         label: 'Retry',
@@ -82,7 +83,7 @@ class _MainModelState extends State<MainModel> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    //SizeConfig().init(context);
     return PageView.builder(
       itemCount: dataState.list.length,
       itemBuilder: (BuildContext context, int index) {
@@ -93,9 +94,10 @@ class _MainModelState extends State<MainModel> {
           children: <Widget>[
             new SizedBox.expand(
                 child: PhotoView(
-              imageProvider: NetworkImage(
-                dataState.list[index].url,
-              ),
+                  imageProvider: CacheImage(dataState.list[index].url),
+              //imageProvider: NetworkImage(
+                //dataState.list[index].url,
+              //),
               loadingBuilder: (context, progress) => Center(
                   child: new Container(
                       child: PlatformCircularProgressIndicator(
@@ -106,15 +108,16 @@ class _MainModelState extends State<MainModel> {
             new Container (
             child: new DraggableScrollableSheet(
               //initialChildSize: SizeConfig.blockSizeVertical * 20,//0.25
-              initialChildSize: SizeConfig.blockSizeVertical * 0.038,
-              minChildSize: 0.2,
-              maxChildSize: 1.0,
+              //initialChildSize: SizeConfig.blockSizeVertical * 0.038,
+              //minChildSize: 0.2,
+              //maxChildSize: 1.0,
+              initialChildSize: 0.27,
               builder: (context, scrollController) {
                 return SingleChildScrollView(
                     controller: scrollController,
                     child: new Container(
-                        //constraints: BoxConstraints(
-                            //minHeight: MediaQuery.of(context).size.height),
+                        constraints: BoxConstraints(
+                            minHeight: MediaQuery.of(context).size.height),
                         color: Colors.black54,
                         child: new Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,8 +141,9 @@ class _MainModelState extends State<MainModel> {
                                             dataState.list[index].full_title,
                                             style: new TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
+                                                fontSize: 18,
+                                              fontFamily: 'NotoSansJP',
+                                              fontWeight: FontWeight.w400,)),
                                         new SizedBox(
                                           height: 20,
                                         ),
@@ -191,7 +195,8 @@ class _MainModelState extends State<MainModel> {
                                   new Text(
                                     'swipe up',
                                     style: TextStyle(
-                                        color: Colors.cyan, fontSize: 14),
+                                        color: Colors.cyan, fontSize: 14, fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.w400,),
                                   ),
                                   new SizedBox(
                                     height: 20,
@@ -199,7 +204,7 @@ class _MainModelState extends State<MainModel> {
                                   new Html(
                                     data: dataState.list[index].full_info,
                                     defaultTextStyle: TextStyle(
-                                        color: Colors.white, fontFamily: 'Belleza', fontSize: 17),
+                                        color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),
                                     onLinkTap: (url) async {
                                       if (await canLaunch(url)) {
                                         await launch(url);
@@ -236,7 +241,8 @@ class _MainModelState extends State<MainModel> {
 
   void showSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Saved to collection.'),
+        content: Text('Saved to collection.', style: TextStyle(fontFamily: 'NotoSansJP',
+          fontWeight: FontWeight.w400,)),
         duration: const Duration(seconds: 3),
         action: new SnackBarAction(
             label: "Undo",
@@ -245,16 +251,5 @@ class _MainModelState extends State<MainModel> {
               // Undo change
             })));
   }
-
-  /*void _save() async {
-
-    int result;
-    result = await dbHelper.insertData(data);
-
-    if (result != 0) {
-      showSnackBar(context);
-    } else {
-      //
-    }
-  }*/
 }
+
