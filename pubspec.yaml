@@ -34,6 +34,11 @@ dependencies:
   flutter_platform_widgets: ^0.32.4
   sqflite: any
   path_provider: any
+  cache_image: ^1.0.5
+  shared_preferences: ^0.5.8
+  after_layout: ^1.0.7+2
+  carousel_slider: ^1.4.1
+  cloud_firestore: ^0.12.9+4
 
 dev_dependencies:
   flutter_test:
@@ -52,8 +57,12 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+   - assets/images/ic_launcher.png
+   - assets/images/ic_cdlilogo.png
+   - assets/images/maceheads07-557b025d7a644-5580cb83bce9d.jpg
+   - assets/images/maceheads07-557b025d7a644-5580cdc26ec0c.jpg
+   - assets/images/P431605-5508f0a82d6a6-551ebb518e0d9.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -71,6 +80,13 @@ flutter:
      - family: Belleza
        fonts:
          - asset: fonts/Belleza-Regular.ttf
+     - family: NotoSansJP
+       fonts:
+         - asset: fonts/NotoSansJP-Regular.otf
+           weight: 400
+         - asset: fonts/NotoSansJP-Light.otf
+           weight: 300
+           style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
