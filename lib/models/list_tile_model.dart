@@ -9,10 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:cdli_tablet_app/services/cdli_data.dart';
-import 'package:cdli_tablet_app/services/db_helper.dart';
 import 'package:cache_image/cache_image.dart';
-import 'package:sqflite/sqflite.dart';
-import 'dart:async';
 
 class ListTileModel extends StatefulWidget {
   final title;
@@ -39,7 +36,6 @@ class _ListTileModelState extends State<ListTileModel> {
   _ListTileModelState(this.title, this.image, this.info, this.thumbnail, this.short_info);
 
   final cdliDataState dataState = new cdliDataState();
-  DatabaseHelper dbHelper = DatabaseHelper();
   cdliData data;
 
   @override
@@ -150,7 +146,7 @@ class _ListTileModelState extends State<ListTileModel> {
                                                   tooltip: 'Save to collection',
                                                   onPressed: () {
                                                     //showSnackBar(context); // Call function
-                                                    save();
+                                                    
                                                   },
                                                 ),
                                                 new SizedBox(
@@ -239,25 +235,5 @@ class _ListTileModelState extends State<ListTileModel> {
             onPressed: () {
               // Undo change
             })));
-  }
-
-  void moveToLastScreen() {
-    Navigator.pop(context, true);
-  }
-
-  void save() async {
-    moveToLastScreen();
-    int result;
-
-    if(data.idDB == null) {
-      result = await dbHelper.insertData(data);
-    }
-
-    if (result != 0) {
-      showSnackBar(context);
-    } else {
-      showSnackBar(context);
-    }
-    moveToLastScreen();
   }
 }
