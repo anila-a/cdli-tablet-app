@@ -10,6 +10,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:cdli_tablet_app/services/cdli_data.dart';
 import 'package:cache_image/cache_image.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ListTileModel extends StatefulWidget {
   final title;
@@ -78,138 +79,122 @@ class _ListTileModelState extends State<ListTileModel> {
 
   @override
   Widget build(BuildContext context) {
+    BorderRadiusGeometry radius = BorderRadius.only(
+        topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0));
     return PageView.builder(
       itemCount: dataState.list.length.compareTo(0),
       itemBuilder: (BuildContext context, int index) {
-        return Stack(
-          children: <Widget>[
-            new SizedBox.expand(
-                child: PhotoView(
-                  imageProvider: CacheImage(image,
+        return SlidingUpPanel(
+          renderPanelSheet: false,
+          backdropEnabled: true,
+          borderRadius: radius,
+          panel: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 15.0,
+                    color: Color.fromRGBO(18, 18, 18, 1),
                   ),
-                  loadingBuilder: (context, progress) => Center(
-                      child : new Container(
-                          child: PlatformCircularProgressIndicator(
-                            android: (_) => MaterialProgressIndicatorData(),
-                            ios: (_) => CupertinoProgressIndicatorData(radius: 25),
-                          )
-                      )),
-                )
+                ]
             ),
-            new DraggableScrollableSheet(
-              initialChildSize: 0.27,
-              builder: (context, scrollController) {
-                return SingleChildScrollView(
-                    controller: scrollController,
-                    child: new Container(
-                        constraints: BoxConstraints(
-                            minHeight: MediaQuery.of(context).size.height),
-                        color: Colors.black54,
-                        child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            // Title and Icons
-                            new Container(
-                                padding: EdgeInsets.only(
-                                    left: 32, right: 32, top: 32),
-                                child: new Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    new Expanded(
-                                        child: new Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            new Text(title,
-                                                style: new TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontFamily: 'NotoSansJP',
-                                                  fontWeight: FontWeight.w400,)),
-                                            new SizedBox(
-                                              height: 20,
-                                            ),
-                                            // Spacing
-                                            new Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                new IconButton(
-                                                  icon: Icon(
-                                                    Icons.collections,
-                                                    color: Colors.grey,
-                                                    size: 24,
-                                                  ),
-                                                  tooltip: 'Save to collection',
-                                                  onPressed: () {
-                                                    //showSnackBar(context); // Call function
-                                                    
-                                                  },
-                                                ),
-                                                new SizedBox(
-                                                  width: 33,
-                                                ),
-                                                new IconButton(
-                                                  icon: Icon(
-                                                    Icons.share,
-                                                    color: Colors.grey,
-                                                    size: 24,
-                                                  ),
-                                                  tooltip: 'Share',
-                                                  onPressed: () {
-                                                    share(thumbnail, short_info);
-                                                  },
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ))
-                                  ],
-                                )),
-                            // Text
-                            new Container(
-                              padding: const EdgeInsets.only(
-                                  left: 32, right: 32),
-                              child: new Column(
-                                children: <Widget>[
-                                  new SizedBox(
-                                    height: 20,
-                                  ),
-                                  new Text(
-                                    'swipe up',
-                                    style: TextStyle(
-                                        color: Colors.cyan, fontSize: 14, fontFamily: 'NotoSansJP',
-                                      fontWeight: FontWeight.w400,),
-                                  ),
-                                  new SizedBox(
-                                    height: 20,
-                                  ),
-                                  new Html(
-                                    data: info,
-                                    defaultTextStyle: TextStyle(
-                                        color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),
-                                    onLinkTap: (url) async {
-                                      if (await canLaunch(url)) {
-                                        await launch(url);
-                                      } else {
-                                        throw 'Could not launch $url';
-                                      }
-                                    },
-                                  ),
-                                  new SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
+            //color: Colors.white,
+            margin: const EdgeInsets.all(24.0),
+            child: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[ Html(
+                          data: info,
+                          defaultTextStyle: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'NotoSansJP',
+                              fontSize: 15),
+                          onLinkTap: (url) async {
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                        ),
+                          ButtonTheme(
+                            minWidth: 330.0,
+                            height: 50.0,
+                            child: RaisedButton(
+                              color: Color.fromRGBO(18, 18, 18, 1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
                               ),
-                            )
-                          ],
-                        )));
-              },
+                              onPressed: (){
+                                share(thumbnail, short_info);
+                              },
+                              child: Text('Share', style: TextStyle(
+                                color: Colors.white, fontSize: 15, fontFamily: 'NotoSansJP',
+                                fontWeight: FontWeight.w400,), textAlign: TextAlign.center),
+                            ),),],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
+          collapsed: Container(
+            margin: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(18, 18, 18, 1),
+              borderRadius: radius,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                          child: Icon(
+                            Icons.maximize,
+                            color: Colors.white,
+                            size: 30,
+                          ))
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(title,
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: 'NotoSansJP',
+                            fontWeight: FontWeight.w400,
+                          ))
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          body: Center(
+            child: PhotoView(
+              imageProvider: CacheImage(image),
+              loadingBuilder: (context, progress) => Center(
+                  child: new Container(
+                      child: PlatformCircularProgressIndicator(
+                        android: (_) => MaterialProgressIndicatorData(),
+                        ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                      ))),
+            ),
+          ),
         );
       },);
   }
@@ -221,7 +206,9 @@ class _ListTileModelState extends State<ListTileModel> {
     Uint8List bytes = await consolidateHttpClientResponseBytes(response);
     await Share.file('cdli tablet', 'image.jpg', bytes, 'image/jpg',
         text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
-            + '"' + short_info + '"' + "\n\n");
+            + '"' + short_info + '"' + "\n\n" + 'Download the free "cdli tablet" app:' + "\n"
+            + 'for Android mobile devides: https://play.google.com/store/apps/details?id=com.cdlisolutions.cdli.cdlitablet' + "\n"
+            + 'for iPad: https://apps.apple.com/us/app/cdli-tablet/id636437023?ls=1');
   }
 
   void showSnackBar(BuildContext context) {
