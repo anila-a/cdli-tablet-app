@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "987554025123",
+    "firebase_url": "https://cdlitablet-9d4f5.firebaseio.com",
+    "project_id": "cdlitablet-9d4f5",
+    "storage_bucket": "cdlitablet-9d4f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987554025123:android:d1e437c49704f97d8cb916",
+        "android_client_info": {
+          "package_name": "com.example.cdli_tablet_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987554025123-gjs174073grivh02fcocbedgn9cafah8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpP7vt40_xvSS_qtKoTGRt9EGjmU5EbPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987554025123-gjs174073grivh02fcocbedgn9cafah8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
