@@ -14,8 +14,6 @@ class _HelpModelState extends State<HelpModel> {
   String email;
   String feedback;
 
-  Color buttonColor = const Color.fromRGBO(48, 48, 48, 1); // 32, or 7
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -78,20 +76,22 @@ class _HelpModelState extends State<HelpModel> {
                                   style: TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
                                     disabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16.0),
                                       borderSide: BorderSide(color: Colors.grey)
                                     ),
                                     enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16.0),
                                         borderSide: BorderSide(color: Colors.grey)
                                     ),
                                     labelText: 'Email address',
                                     labelStyle: TextStyle(color: Colors.grey, fontSize: 15, fontFamily: 'NotoSansJP',
                                       fontWeight: FontWeight.w400,),
                                     border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
+                                      borderRadius: BorderRadius.circular(16.0),
                                   ),
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value == null || value.isEmpty) {
                                   return 'Email address is required.';
                                 }
                               },
@@ -105,20 +105,22 @@ class _HelpModelState extends State<HelpModel> {
                                     style: TextStyle(color: Colors.white),
                                      decoration: InputDecoration(
                                        disabledBorder: OutlineInputBorder(
+                                         borderRadius: BorderRadius.circular(16.0),
                                            borderSide: BorderSide(color: Colors.grey)
                                        ),
                                        enabledBorder: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(16.0),
                                            borderSide: BorderSide(color: Colors.grey)
                                        ),
                                        labelText: 'Feedback',
                                        labelStyle: TextStyle(color: Colors.grey, fontSize: 15, fontFamily: 'NotoSansJP',
                                          fontWeight: FontWeight.w400,),
                                        border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(5.0),
+                                        borderRadius: BorderRadius.circular(16.0),
                                       ),
                                     ),
                                     validator: (value) {
-                                      if (value.isEmpty) {
+                                      if (value == null || value.isEmpty) {
                                         return 'Feedback cannot be empty.';
                                       }
                                     },
@@ -135,8 +137,13 @@ class _HelpModelState extends State<HelpModel> {
                                 minWidth: 330.0,
                                 height: 50.0,
                                 child: RaisedButton(
-                                  color: buttonColor,
-                                  onPressed: submitFeedback,
+                                  color: Color.fromRGBO(18, 18, 18, 1),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                  onPressed:
+                                    submitFeedback,
+                                    //Navigator.pop(context);
                                   child: Text('Submit', style: TextStyle(
                                     color: Colors.white, fontSize: 15, fontFamily: 'NotoSansJP',
                                     fontWeight: FontWeight.w400,), textAlign: TextAlign.center),
@@ -155,9 +162,57 @@ class _HelpModelState extends State<HelpModel> {
   void submitFeedback() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      DocumentReference ref = await db.collection('cdli-tablet').add({'email': '$email', 'feedback': '$feedback'});
+      DocumentReference ref = await db.collection('cdlitablet').add({'email': '$email', 'feedback': '$feedback'});
       setState(() => id = ref.documentID);
       print(ref.documentID);
+      showAlertDialog();
     }
+    //Navigator.pop(context);
+
   }
+
+  Future<void> showAlertDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Feedback', style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontFamily: 'NotoSansJP',
+            fontWeight: FontWeight.w400,
+          ),),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Your respose has been recorded.', style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontFamily: 'NotoSansJP',
+                  fontWeight: FontWeight.w400,
+                ),),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Close', style: TextStyle(
+                color: Colors.lightBlue,
+                fontSize: 15,
+                fontFamily: 'NotoSansJP',
+                fontWeight: FontWeight.w400,
+              ),),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
+
