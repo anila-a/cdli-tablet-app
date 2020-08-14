@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/highlights_model.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class HighlightsScreen extends StatefulWidget {
   @override
@@ -18,7 +19,12 @@ class _HighlightsScreenState extends State<HighlightsScreen> {
           style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.w400,),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromRGBO(18, 18, 18, 1),
+        leading: PlatformIconButton(
+          android: (_) => MaterialIconButtonData(icon: Icon(Icons.arrow_back, color: Colors.white,)),
+          ios: (_) => CupertinoIconButtonData(icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: HighlightsModel(),
     );
