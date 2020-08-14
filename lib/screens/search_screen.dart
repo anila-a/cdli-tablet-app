@@ -15,9 +15,10 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: Text(
           'cdli tablet',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP',
+            fontWeight: FontWeight.w400,),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromRGBO(18, 18, 18, 1),
         leading: PlatformIconButton(
           android: (_) => MaterialIconButtonData(icon: Icon(Icons.arrow_back, color: Colors.white,)),
           ios: (_) => CupertinoIconButtonData(icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
