@@ -63,7 +63,7 @@ class _SearchModelState extends State<SearchModel> {
 
   searchBar() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 14.0, right: 8.0, left: 8.0),
       child: TextField(
         decoration: InputDecoration(
           hintText: 'Search',
@@ -71,8 +71,8 @@ class _SearchModelState extends State<SearchModel> {
             fontWeight: FontWeight.w400,),
           prefixIcon: Icon(Icons.search, color: Colors.white),
           enabledBorder: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(8.0),
-            borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+            borderRadius: new BorderRadius.circular(16.0),
+            borderSide: new BorderSide(color: Colors.grey),
           ),
         ),
         style: TextStyle(color: Colors.white),
@@ -175,4 +175,3 @@ class _SearchModelState extends State<SearchModel> {
     return m + " " + day.toString() + ", " + year.toString();
   }
 }
-
