@@ -32,8 +32,6 @@ dependencies:
   intl: ^0.16.1
   esys_flutter_share: ^1.0.2
   flutter_platform_widgets: ^0.32.4
-  sqflite: any
-  path_provider: any
   cache_image: ^1.0.5
   shared_preferences: ^0.5.8
   after_layout: ^1.0.7+2
@@ -62,11 +60,11 @@ flutter:
   assets:
    - assets/images/ic_launcher.png
    - assets/images/ic_cdlilogo.png
-   - assets/highlights/Highlights-01.jpg
-   - assets/highlights/Highlights-02.jpg
-   - assets/highlights/Highlights-03.jpg
-   - assets/highlights/Highlights-04.jpg
-   - assets/highlights/Highlights-05.jpg
+   - assets/highlights/highlight-01.jpg
+   - assets/highlights/highlight-02.jpg
+   - assets/highlights/highlight-03.jpg
+   - assets/highlights/highlight-04.jpg
+   - assets/highlights/highlight-05.jpg
 
   #  - images/a_dot_ham.jpeg
 
