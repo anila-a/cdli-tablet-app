@@ -9,9 +9,6 @@ class IntroModel extends StatefulWidget {
 }
 
 class _IntroModelState extends State<IntroModel> {
-
-  Color buttonColor = const Color.fromRGBO(48, 48, 48, 1); // 32, or 7
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,7 +57,10 @@ class _IntroModelState extends State<IntroModel> {
                 minWidth: 330.0,
                 height: 50.0,
                 child: RaisedButton(
-                  color: buttonColor,
+                  color: Color.fromRGBO(18, 18, 18, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
                   onPressed: () {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HighlightsScreen())
@@ -78,7 +78,10 @@ class _IntroModelState extends State<IntroModel> {
                 minWidth: 330.0,
                 height: 50.0,
                 child: RaisedButton(
-                  color: buttonColor,
+                  color: Color.fromRGBO(18, 18, 18, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
                   onPressed: () {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => MainScreen())
