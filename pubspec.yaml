@@ -38,11 +38,13 @@ dependencies:
   shared_preferences: ^0.5.8
   after_layout: ^1.0.7+2
   carousel_slider: ^1.4.1
+  sliding_up_panel: ^1.0.2
   cloud_firestore: ^0.12.9+4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^0.1.9
 
 
 # For information on the generic Dart part of this file, see the
@@ -60,9 +62,12 @@ flutter:
   assets:
    - assets/images/ic_launcher.png
    - assets/images/ic_cdlilogo.png
-   - assets/images/maceheads07-557b025d7a644-5580cb83bce9d.jpg
-   - assets/images/maceheads07-557b025d7a644-5580cdc26ec0c.jpg
-   - assets/images/P431605-5508f0a82d6a6-551ebb518e0d9.jpg
+   - assets/highlights/Highlights-01.jpg
+   - assets/highlights/Highlights-02.jpg
+   - assets/highlights/Highlights-03.jpg
+   - assets/highlights/Highlights-04.jpg
+   - assets/highlights/Highlights-05.jpg
+
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -77,9 +82,6 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Belleza
-       fonts:
-         - asset: fonts/Belleza-Regular.ttf
      - family: NotoSansJP
        fonts:
          - asset: fonts/NotoSansJP-Regular.otf
