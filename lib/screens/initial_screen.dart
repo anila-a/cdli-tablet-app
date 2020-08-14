@@ -3,7 +3,7 @@ import 'package:cdli_tablet_app/screens/main_screen.dart';
 import 'package:cdli_tablet_app/models/intro_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:after_layout/after_layout.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter/services.dart';
 
 class InitialScreen extends StatefulWidget {
   @override
@@ -35,12 +35,6 @@ class _InitialScreenState extends State<InitialScreen> with AfterLayoutMixin<Ini
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      /*body: Center(
-        child: PlatformCircularProgressIndicator(
-          android: (_) => MaterialProgressIndicatorData(),
-          ios: (_) => CupertinoProgressIndicatorData(radius: 25),
-        ),
-      ),*/
     );
   }
 }
@@ -48,6 +42,10 @@ class _InitialScreenState extends State<InitialScreen> with AfterLayoutMixin<Ini
 class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -58,7 +56,7 @@ class IntroScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.w400,),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromRGBO(18, 18, 18, 1),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -77,4 +75,3 @@ class IntroScreen extends StatelessWidget {
     );
   }
 }
-
