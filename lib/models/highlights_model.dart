@@ -1,10 +1,7 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cache_image/cache_image.dart';
 
 class HighlightsModel extends StatefulWidget {
   @override
@@ -54,13 +51,11 @@ class _HighlightsModelState extends State<HighlightsModel> {
   }
 
   int _current = 0;
-  List highlights = ['assets/images/maceheads07-557b025d7a644-5580cb83bce9d.jpg',
-                     'assets/images/maceheads07-557b025d7a644-5580cdc26ec0c.jpg',
-                     'assets/images/P431605-5508f0a82d6a6-551ebb518e0d9.jpg'];
-  List titles = ['Mace heads: 7', 'Mace heads: 6', 'Mace heads: 5'];
-  List blurbs = ['A marble mace head from Sippar dated to the reign of Manishtusu of the Old Akkadian period (2340-2200 BC).',
-                 'An Old Akkadian (2340-2200 BC) mace head from Ur with a dedicatory inscription; said to be made of aragonite.',
-                 'A stone mace head from the Early Babylonian period (2000-1800 BC), after the collapse of the Ur III dynasty in southern Mesopotamia.'];
+  List highlights = ['assets/highlights/highlight-01.jpg',
+                     'assets/highlights/highlight-02.jpg',
+                     'assets/highlights/highlight-03.jpg',
+                     'assets/highlights/highlight-04.jpg',
+                     'assets/highlights/highlight-05.jpg',];
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -72,15 +67,17 @@ class _HighlightsModelState extends State<HighlightsModel> {
 
   @override
   Widget build(BuildContext context) {
+    var padding = MediaQuery.of(context).padding;
+    double height = MediaQuery.of(context).size.height - padding.top - padding.bottom;
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           CarouselSlider(
-              height: 400.0,
+              height: height - 150,
               initialPage: 0,
-              enlargeCenterPage: true,
+              // enlargeCenterPage: true,
               autoPlay: true,
               autoPlayInterval: Duration(seconds: 5),
               autoPlayAnimationDuration: Duration(milliseconds: 2000),
@@ -93,10 +90,7 @@ class _HighlightsModelState extends State<HighlightsModel> {
               items: highlights.map((imgAsset) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
+                    return Container(
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
                         decoration: BoxDecoration(
@@ -106,42 +100,7 @@ class _HighlightsModelState extends State<HighlightsModel> {
                             imgAsset, fit: BoxFit.fitWidth,
                           //loadingBuilder: progressIndicator(),
                           ),
-                      ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              child: Text(titles[_current], style: TextStyle(color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: 'NotoSansJP',
-                                fontWeight: FontWeight.w400,), textAlign: TextAlign.center,),
-                            )
-                          ],
-                        ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    child: Text(blurbs[_current], style: TextStyle(color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: 'NotoSansJP',
-                                      fontWeight: FontWeight.w400,), textAlign: TextAlign.center,),
-                                  )),
-                                ],
-                              ),
-                            ),
-                          ],),
-                    );
+                      );
                   },
                 );
           }).toList(),
@@ -153,9 +112,9 @@ class _HighlightsModelState extends State<HighlightsModel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: map<Widget>(highlights, (index, asset) {
               return Container(
-                width: 10.0,
-                height: 10.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                width: 7.0,
+                height: 7.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 3.0),
                 decoration: BoxDecoration(shape: BoxShape.circle,
                 color: _current == index ? Colors.white : Colors.grey),
               );
