@@ -63,7 +63,7 @@ class _ListModelState extends State<ListModel> {
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Row(
               children: <Widget>[
-                Text('LIST VIEW', style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: 'NotoSansJP',
+                Text('LIST LAYOUT', style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: 'NotoSansJP',
                   fontWeight: FontWeight.w400,)),
               ],
             ),
@@ -74,14 +74,14 @@ class _ListModelState extends State<ListModel> {
             children: <Widget>[
               Icon(Icons.sort_by_alpha, color: Colors.white, size: 22,),
               SizedBox(width: 10,),
-              Text('Sorted artifacts in a list view', style: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'NotoSansJP',
+              Text('Artifacts sorted alphabetically', style: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'NotoSansJP',
                 fontWeight: FontWeight.w400,)),
             ],
           ),
         ),
         Divider(color: Colors.white, thickness: 0.28,),
         Expanded(
-        flex: 1,
+    flex: 1,
         child: ListView.builder(
           itemCount: dataState.list.length,
           itemBuilder: (BuildContext context, int index) {
@@ -178,3 +178,4 @@ class _ListModelState extends State<ListModel> {
     return m + " " + day.toString() + ", " + year.toString();
   }
 }
+
