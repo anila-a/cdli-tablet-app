@@ -64,7 +64,7 @@ class _GridModelState extends State<GridModel> {
               padding: const EdgeInsets.only(bottom: 20.0),
               child: Row(
                 children: <Widget>[
-                  Text('GRID VIEW', style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: 'NotoSansJP',
+                  Text('GRID LAYOUT', style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.w400,)),
                 ],
               ),
@@ -75,7 +75,7 @@ class _GridModelState extends State<GridModel> {
                 children: <Widget>[
                   Icon(Icons.grid_on, color: Colors.white, size: 22,),
                   SizedBox(width: 10,),
-                  Text('Artifacts displayed in a grid view', style: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'NotoSansJP',
+                  Text('Artifacts displayed in grid layout', style: TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.w400,)),
                 ],
               ),
@@ -172,3 +172,4 @@ class _GridModelState extends State<GridModel> {
     return m + " " + day.toString() + ", " + year.toString();
   }
 }
+
