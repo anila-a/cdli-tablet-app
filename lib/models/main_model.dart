@@ -10,26 +10,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:cache_image/cache_image.dart';
-import 'package:cdli_tablet_app/services/cdli_data.dart';
-import 'package:cdli_tablet_app/services/db_helper.dart';
-import 'package:sqflite/sqflite.dart';
-import 'dart:async';
-/*
-class SizeConfig {
-  static MediaQueryData _mediaQueryData;
-  static double screenWidth;
-  static double screenHeight;
-  static double blockSizeHorizontal;
-  static double blockSizeVertical;
-
-  void init(BuildContext context) {
-    _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData.size.width;
-    screenHeight = _mediaQueryData.size.height;
-    blockSizeHorizontal = screenWidth / 100;
-    blockSizeVertical = screenHeight / 100;
-  }
-}*/
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MainModel extends StatefulWidget {
   @override
@@ -37,9 +18,6 @@ class MainModel extends StatefulWidget {
 }
 
 class _MainModelState extends State<MainModel> {
-
-  //DatabaseHelper dbHelper = DatabaseHelper();
-  //Data data;
 
   final cdliDataState dataState = new cdliDataState();
 
@@ -68,8 +46,13 @@ class _MainModelState extends State<MainModel> {
 
   void _showError() {
     Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
-        fontWeight: FontWeight.w400,),),
+      content: new Text(
+        'Check your connection and try again.',
+        style: TextStyle(
+          fontFamily: 'NotoSansJP',
+          fontWeight: FontWeight.w400,
+        ),
+      ),
       duration: new Duration(seconds: 3),
       action: new SnackBarAction(
         label: 'Retry',
@@ -83,166 +66,151 @@ class _MainModelState extends State<MainModel> {
 
   @override
   Widget build(BuildContext context) {
-    //SizeConfig().init(context);
+    BorderRadiusGeometry radius = BorderRadius.only(
+        topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0));
     return PageView.builder(
       itemCount: dataState.list.length,
       itemBuilder: (BuildContext context, int index) {
-        //SizeConfig().init(context);
-        //data.dateDB = dataState.list[index].date;
-        //data.fullTitleDB = dataState.list[index].full_title;
-        return Stack(
-          children: <Widget>[
-            new SizedBox.expand(
-                child: PhotoView(
-                  imageProvider: CacheImage(dataState.list[index].url),
-              //imageProvider: NetworkImage(
-                //dataState.list[index].url,
-              //),
+        return SlidingUpPanel(
+          renderPanelSheet: false,
+          backdropEnabled: true,
+          borderRadius: radius,
+          panel: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 15.0,
+                    color: Color.fromRGBO(18, 18, 18, 1),
+                  ),
+                ]),
+            //color: Colors.white,
+            margin: const EdgeInsets.all(24.0),
+            child: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Html(
+                           data: dataState.list[index].full_info,
+                            defaultTextStyle: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 15),
+                            onLinkTap: (url) async {
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                          ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: ButtonTheme(
+                          minWidth: 330.0,
+                          height: 50.0,
+                            child: RaisedButton(
+                              color: Color.fromRGBO(18, 18, 18, 1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              onPressed: (){
+                                share(index);
+                              },
+                              child: Text('Share', style: TextStyle(
+                                color: Colors.white, fontSize: 15, fontFamily: 'NotoSansJP',
+                                fontWeight: FontWeight.w400,), textAlign: TextAlign.center),
+                            ),),
+                      ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          collapsed: Container(
+            margin: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(18, 18, 18, 1),
+              borderRadius: radius,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                          child: Icon(
+                        Icons.maximize,
+                        color: Colors.white,
+                        size: 30,
+                      ))
+                    ],
+                  ),
+                  Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(dataState.list[index].full_title,
+                              style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'NotoSansJP',
+                                fontWeight: FontWeight.w400,
+                              ))
+                        ],
+                      ),
+                ],
+              ),
+            ),
+          ),
+          body: Center(
+            child: PhotoView(
+              imageProvider: CacheImage(dataState.list[index].url),
               loadingBuilder: (context, progress) => Center(
                   child: new Container(
                       child: PlatformCircularProgressIndicator(
-                        android: (_) => MaterialProgressIndicatorData(),
-                        ios: (_) => CupertinoProgressIndicatorData(radius: 25),
-                      ))),
-            )),
-            new Container (
-            child: new DraggableScrollableSheet(
-              //initialChildSize: SizeConfig.blockSizeVertical * 20,//0.25
-              //initialChildSize: SizeConfig.blockSizeVertical * 0.038,
-              //minChildSize: 0.2,
-              //maxChildSize: 1.0,
-              initialChildSize: 0.27,
-              builder: (context, scrollController) {
-                return SingleChildScrollView(
-                    controller: scrollController,
-                    child: new Container(
-                        constraints: BoxConstraints(
-                            minHeight: MediaQuery.of(context).size.height),
-                        color: Colors.black54,
-                        child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            // Title and Icons
-                            new Container(
-                                padding: EdgeInsets.only(
-                                    left: 32, right: 32, top: 32),
-                                child: new Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    new Expanded(
-                                        child: new Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        new Text(
-                                            dataState.list[index].full_title,
-                                            style: new TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              fontFamily: 'NotoSansJP',
-                                              fontWeight: FontWeight.w400,)),
-                                        new SizedBox(
-                                          height: 20,
-                                        ),
-                                        // Spacing
-                                        new Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            new IconButton(
-                                              icon: Icon(
-                                                Icons.collections,
-                                                color: Colors.grey,
-                                                size: 24,
-                                              ),
-                                              tooltip: 'Save to collection',
-                                              onPressed: () {
-                                                //_save();
-                                              },
-                                            ),
-                                            new SizedBox(
-                                              width: 33,
-                                            ),
-                                            new IconButton(
-                                              icon: Icon(
-                                                Icons.share,
-                                                color: Colors.grey,
-                                                size: 24,
-                                              ),
-                                              tooltip: 'Share',
-                                              onPressed: () {
-                                                share(index);
-                                              },
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ))
-                                  ],
-                                )),
-                            // Text
-                            new Container(
-                              padding:
-                                  const EdgeInsets.only(left: 32, right: 32),
-                              child: new Column(
-                                children: <Widget>[
-                                  new SizedBox(
-                                    height: 20,
-                                  ),
-                                  new Text(
-                                    'swipe up',
-                                    style: TextStyle(
-                                        color: Colors.cyan, fontSize: 14, fontFamily: 'NotoSansJP',
-                                      fontWeight: FontWeight.w400,),
-                                  ),
-                                  new SizedBox(
-                                    height: 20,
-                                  ),
-                                  new Html(
-                                    data: dataState.list[index].full_info,
-                                    defaultTextStyle: TextStyle(
-                                        color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 15),
-                                    onLinkTap: (url) async {
-                                      if (await canLaunch(url)) {
-                                        await launch(url);
-                                      } else {
-                                        throw 'Could not launch $url';
-                                      }
-                                    },
-                                  ),
-                                  new SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )));
-              },
-            ),),
-          ],
+                android: (_) => MaterialProgressIndicatorData(),
+                ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+              ))),
+            ),
+          ),
         );
       },
     );
   }
 
   void share(int index) async {
-    var request = await HttpClient().getUrl(Uri.parse(dataState.list[index].thumbnail_url));
+    var request = await HttpClient()
+        .getUrl(Uri.parse(dataState.list[index].thumbnail_url));
     var response = await request.close();
 
     Uint8List bytes = await consolidateHttpClientResponseBytes(response);
     await Share.file('cdli tablet', 'image.jpg', bytes, 'image/jpg',
         text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
-            + '"' + dataState.list[index].blurb + '"' + "\n\n");
-    }
+            + '"' + dataState.list[index].blurb + '"' + "\n\n" + 'Download the free "cdli tablet" app:' + "\n"
+            + 'for Android mobile devides: https://play.google.com/store/apps/details?id=com.cdlisolutions.cdli.cdlitablet' + "\n"
+            + 'for iPad: https://apps.apple.com/us/app/cdli-tablet/id636437023?ls=1');
+  }
 
   void showSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Text('Saved to collection.', style: TextStyle(fontFamily: 'NotoSansJP',
-          fontWeight: FontWeight.w400,)),
+        content: Text('Saved to collection.',
+            style: TextStyle(
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.w400,
+            )),
         duration: const Duration(seconds: 3),
         action: new SnackBarAction(
             label: "Undo",
@@ -252,4 +220,3 @@ class _MainModelState extends State<MainModel> {
             })));
   }
 }
-
