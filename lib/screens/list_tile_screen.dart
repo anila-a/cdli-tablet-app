@@ -36,7 +36,7 @@ class _ListTileScreenState extends State<ListTileScreen> {
           style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.w400,),
         ),
-        backgroundColor: Color.fromRGBO(18, 18, 18, 1),
+        backgroundColor: Colors.black,
         leading: PlatformIconButton(
           android: (_) => MaterialIconButtonData(icon: Icon(Icons.arrow_back, color: Colors.white,)),
           ios: (_) => CupertinoIconButtonData(icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
