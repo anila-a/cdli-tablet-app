@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:cdli_tablet_app/screens/main_screen.dart';
+import 'package:cdli_tablet_app/models/menu_dashboard_model.dart';
 import 'package:cdli_tablet_app/screens/highlights_screen.dart';
 
 class IntroModel extends StatefulWidget {
@@ -84,7 +84,7 @@ class _IntroModelState extends State<IntroModel> {
                   ),
                   onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => MainScreen())
+                        MaterialPageRoute(builder: (context) => MenuDashboardModel())
                     );
                   },
                   child: Text('Continue', style: TextStyle(
