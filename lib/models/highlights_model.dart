@@ -36,11 +36,11 @@ class _HighlightsModelState extends State<HighlightsModel> {
   }
 
   void _showError() {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
         fontWeight: FontWeight.w400,),),
-      duration: new Duration(seconds: 3),
-      action: new SnackBarAction(
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
         label: 'Retry',
         textColor: Colors.cyan,
         onPressed: () {
