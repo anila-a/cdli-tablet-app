@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/routes/routes.dart';
+import 'package:cdli_tablet_app/models/menu_dashboard_model.dart';
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // Root of the app
   @override
   Widget build(BuildContext context) {
-    /*SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);*/
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
         title: 'cdli tablet',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.grey,
         ),
