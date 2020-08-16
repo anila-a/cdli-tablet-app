@@ -38,6 +38,7 @@ dependencies:
   carousel_slider: ^1.4.1
   sliding_up_panel: ^1.0.2
   cloud_firestore: ^0.12.9+4
+  flutter_bloc: ^2.1.1
 
 dev_dependencies:
   flutter_test:
