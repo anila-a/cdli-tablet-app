@@ -1,32 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/models/help_model.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:cdli_tablet_app/routes/menu.dart';
+import 'package:flutter/services.dart';
 
-class HelpScreen extends StatefulWidget {
-  @override
-  _HelpScreenState createState() => _HelpScreenState();
-}
+class HelpScreen extends StatelessWidget with NavigationState {
+  final Function onMenuTap;
+  const HelpScreen({Key key, this.onMenuTap}) : super(key: key);
 
-class _HelpScreenState extends State<HelpScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        iconTheme: new IconThemeData(color: Colors.white),
-        title: Text(
-          'cdli tablet',
-          style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP',
-            fontWeight: FontWeight.w400,),
+    return WillPopScope(
+      onWillPop: () {
+        _onBackPressed(context);
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          title: Text(
+            'cdli tablet',
+            style: TextStyle(color: Colors.white, fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.w400,),
+          ),
+          backgroundColor: Colors.black,
+          leading: InkWell(
+
+            child: Icon(Icons.menu, color: Colors.white),
+            onTap: onMenuTap,
+          ),
         ),
-        backgroundColor: Color.fromRGBO(18, 18, 18, 1),
-        leading: PlatformIconButton(
-          android: (_) => MaterialIconButtonData(icon: Icon(Icons.arrow_back, color: Colors.white,)),
-          ios: (_) => CupertinoIconButtonData(icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        body: HelpModel(),
       ),
-      body: HelpModel(),
+    );
+  }
+
+  Future<bool> _onBackPressed(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('cdli tablet', style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontFamily: 'NotoSansJP',
+            fontWeight: FontWeight.w400,
+          ),),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Do you really want to exit?', style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontFamily: 'NotoSansJP',
+                  fontWeight: FontWeight.w400,
+                ),),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Yes', style: TextStyle(
+                color: Colors.lightBlue,
+                fontSize: 15,
+                fontFamily: 'NotoSansJP',
+                fontWeight: FontWeight.w400,
+              ),),
+              onPressed: () {
+                //SystemNavigator.pop();
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+              },
+            ),
+            FlatButton(
+              child: Text('No', style: TextStyle(
+                color: Colors.lightBlue,
+                fontSize: 15,
+                fontFamily: 'NotoSansJP',
+                fontWeight: FontWeight.w400,
+              ),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
