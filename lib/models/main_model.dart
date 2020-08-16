@@ -45,16 +45,16 @@ class _MainModelState extends State<MainModel> {
   }
 
   void _showError() {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text(
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(
         'Check your connection and try again.',
         style: TextStyle(
           fontFamily: 'NotoSansJP',
           fontWeight: FontWeight.w400,
         ),
       ),
-      duration: new Duration(seconds: 3),
-      action: new SnackBarAction(
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
         label: 'Retry',
         textColor: Colors.cyan,
         onPressed: () {
@@ -154,7 +154,7 @@ class _MainModelState extends State<MainModel> {
                           child: Icon(
                         Icons.maximize,
                         color: Colors.white,
-                        size: 30,
+                        size: 25,
                       ))
                     ],
                   ),
@@ -163,9 +163,9 @@ class _MainModelState extends State<MainModel> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(dataState.list[index].full_title,
-                              style: new TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 15.5,
                                 fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.w400,
                               ))
@@ -179,7 +179,7 @@ class _MainModelState extends State<MainModel> {
             child: PhotoView(
               imageProvider: CacheImage(dataState.list[index].url),
               loadingBuilder: (context, progress) => Center(
-                  child: new Container(
+                  child: Container(
                       child: PlatformCircularProgressIndicator(
                 android: (_) => MaterialProgressIndicatorData(),
                 ios: (_) => CupertinoProgressIndicatorData(radius: 25),
@@ -199,20 +199,18 @@ class _MainModelState extends State<MainModel> {
     Uint8List bytes = await consolidateHttpClientResponseBytes(response);
     await Share.file('cdli tablet', 'image.jpg', bytes, 'image/jpg',
         text: 'I saw this entry on the app "cdli tablet" and wanted to share it with you: \n\n'
-            + '"' + dataState.list[index].blurb + '"' + "\n\n" + 'Download the free "cdli tablet" app:' + "\n"
-            + 'for Android mobile devides: https://play.google.com/store/apps/details?id=com.cdlisolutions.cdli.cdlitablet' + "\n"
-            + 'for iPad: https://apps.apple.com/us/app/cdli-tablet/id636437023?ls=1');
+            + '"' + dataState.list[index].blurb + '"' + "\n\n" + 'Information about the iPad and Android apps: ' + 'https://cdli.ucla.edu/?q=cdli-tablet' + "\n");
   }
 
   void showSnackBar(BuildContext context) {
-    Scaffold.of(context).showSnackBar(new SnackBar(
+    Scaffold.of(context).showSnackBar(SnackBar(
         content: Text('Saved to collection.',
             style: TextStyle(
               fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.w400,
             )),
         duration: const Duration(seconds: 3),
-        action: new SnackBarAction(
+        action: SnackBarAction(
             label: "Undo",
             textColor: Colors.cyan,
             onPressed: () {
