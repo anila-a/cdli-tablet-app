@@ -41,25 +41,18 @@ class _AboutModelState extends State<AboutModel> {
                 scrollDirection: Axis.vertical,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0),
-                  child: Text('“cdli tablet” is now on Android! Focusing on the cultural '
-                          'heritage of ancient Mesopotamia, the app combines text and '
-                          'images documenting three millennia of human activity that '
-                          'includes the development of trade, mathematics, and astronomy. '
-                          'Users will follow the application of the law of an eye for an '
-                          'eye by the Old Babylonian king Hammurapi, and will relive the '
-                          'exploits of Gilgamesh and Enkidu. Striking images of selected '
-                          'cuneiform texts and related artifacts are placed in their '
-                          'historical setting with short narratives prepared by experts '
-                          'in the languages and archaeology of the ancient Near East, '
-                          'but also by college students approaching a distant world with '
-                          'fresh eyes.',
+                  child: Text('This app curates highlighted objects from the CDLI collection. '
+                      'Entries are written by experts in the field. New highlights are available '
+                      'each day, and links are included to find more information on the CDLI website. '
+                      'You can share entries via social media if you want to show a particular object '
+                      'to others. Any feedback should be submitted via the menu in the navigation menu on the left.',
                             style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.w400,)),
-                ),
+                        ),
                       ),
                     ),
-                      ]),
-            ),
+          ]),
+      ),
     );
   }
 }
