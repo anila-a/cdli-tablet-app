@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cdli_tablet_app/services/cdli_data_state.dart';
 import 'package:cdli_tablet_app/screens/tile_screen.dart';
+import 'package:cdli_tablet_app/models/tile_model.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:cache_image/cache_image.dart';
 
@@ -37,11 +38,11 @@ class _GridModelState extends State<GridModel> {
   }
 
   void _showError() {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text('Check your connection and try again.', style: TextStyle(fontFamily: 'NotoSansJP',
         fontWeight: FontWeight.w400,),),
-      duration: new Duration(seconds: 3),
-      action: new SnackBarAction(
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
         label: 'Retry',
         textColor: Colors.cyan,
         onPressed: () {
@@ -84,29 +85,34 @@ class _GridModelState extends State<GridModel> {
             Expanded(
               flex: 1,
             child: GridView.builder(
-                gridDelegate:
+                /* gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
-                (orientation == Orientation.portrait) ? 2 : 3),
+                (orientation == Orientation.portrait) ? 2 : 3), */
                 itemCount: dataState.list.length,
                 itemBuilder: (BuildContext context, int index) {
                   int position = index;
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: new Card(
-                      child: new GridTile(
-                          child: Image(
-                            image: CacheImage(dataState.list[index].url),
-                            fit: BoxFit.fitWidth,
-                            loadingBuilder: (context, child, progress) {
-                              return progress == null ? child : new Center(
-                                  child: PlatformCircularProgressIndicator(
-                                    android: (_) => MaterialProgressIndicatorData(),
-                                    ios: (_) => CupertinoProgressIndicatorData(radius: 25),
-                                  )
-                              );
-                            },
+                    child: Card(
+                      child: GridTile(
+                          child: GestureDetector(
+                            child: Image(
+                              image: CacheImage(dataState.list[index].url),
+                              fit: BoxFit.fitWidth,
+                              loadingBuilder: (context, child, progress) {
+                                return progress == null ? child : Center(
+                                    child: PlatformCircularProgressIndicator(
+                                      android: (_) => MaterialProgressIndicatorData(),
+                                      ios: (_) => CupertinoProgressIndicatorData(radius: 25),
+                                    )
+                                );
+                              },
+                            ),
+                            onTap: () {
+                              navigateToDetailScreen(position);
+                              },
                           ),
-                          footer: new Container(
+                          footer: Container(
                               color: Colors.black54,
                               child: ListTile(
                                 leading: Text(
@@ -172,4 +178,3 @@ class _GridModelState extends State<GridModel> {
     return m + " " + day.toString() + ", " + year.toString();
   }
 }
-
