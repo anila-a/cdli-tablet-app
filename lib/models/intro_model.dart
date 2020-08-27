@@ -42,10 +42,9 @@ class _IntroModelState extends State<IntroModel> {
                   Expanded(
                     flex: 1,
                   child: Container(
-                    child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
-                      'sed do eiusmod tempor incididunt ut labore et dolore magna '
-                      'aliqua. Ut enim ad minim veniam, quis nostrud exercitation '
-                      'ullamco laboris nisi ut aliquip ex ea commodo consequat.', style: TextStyle(
+                    child: Text('This app provides daily highlights from the entire CDLI '
+                        'collection with detailed descriptions and links for more information.',
+                      style: TextStyle(
                     color: Colors.white, fontSize: 17, fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.w400,), textAlign: TextAlign.center,),
                 ),),],
