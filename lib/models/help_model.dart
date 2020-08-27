@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cdli_tablet_app/models/menu_dashboard_model.dart';
 
 class HelpModel extends StatefulWidget {
   @override
@@ -204,8 +205,7 @@ class _HelpModelState extends State<HelpModel> {
                 fontWeight: FontWeight.w400,
               ),),
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardModel()));
               },
             ),
           ],
@@ -213,6 +213,4 @@ class _HelpModelState extends State<HelpModel> {
       },
     );
   }
-
 }
-
