@@ -85,9 +85,9 @@ class _GridModelState extends State<GridModel> {
             Expanded(
               flex: 1,
             child: GridView.builder(
-                /* gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
-                (orientation == Orientation.portrait) ? 2 : 3), */
+                gridDelegate: null,
+                /*SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
+                (orientation == Orientation.portrait) ? 2 : 3),*/
                 itemCount: dataState.list.length,
                 itemBuilder: (BuildContext context, int index) {
                   int position = index;
