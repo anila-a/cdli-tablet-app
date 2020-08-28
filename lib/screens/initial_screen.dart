@@ -42,10 +42,6 @@ class _InitialScreenState extends State<InitialScreen> with AfterLayoutMixin<Ini
 class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     return WillPopScope(
       onWillPop: () {
         _onBackPressed(context);
