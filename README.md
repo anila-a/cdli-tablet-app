@@ -9,7 +9,7 @@ Flutter and provide a web admin interface for the mobile app data entry and mana
 existing components, the new mobile application will offer additional features for a
 highly-customized UX. CDLI tablet app will be accessible for both Android and iOS devices.
 
-https://summerofcode.withgoogle.com/projects/#5115652567728128
+https://summerofcode.withgoogle.com/archive/2020/projects/6564103281180672/
 
 <b>Organization:</b> Cuneiform Digital Library Initiative (CDLI)<br>
 <b>Mentors:</b> M. Willis Monroe
